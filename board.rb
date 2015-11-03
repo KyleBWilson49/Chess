@@ -21,7 +21,7 @@ class Board
 
   def move(start, end_pos, current_player)
     piece = @grid[start[0]][start[1]]
-
+    p piece.valid_moves
     if piece.nil?
       fail
     end
@@ -59,10 +59,9 @@ class Board
   end
 
   def in_check?(color)
-    king = @grid.flatten.select do |piece|
-      !piece.nil? && piece.color == color && piece.class == King
-    end
-    enemy_pieces = @grid.flatten.select {|piece| !piece.nil? && piece.color != color}
+    king = find_piece { |piece| !piece.nil? && piece.color == color && piece.class == King}
+
+    enemy_pieces = find_piece {|piece| !piece.nil? && piece.color != color}
 
     enemy_pieces.any? do |piece|
       piece.moves.include?(king[0].position)
@@ -70,9 +69,13 @@ class Board
   end
 
   def checkmate?(color)
-    own_pieces = @grid.flatten.select {|piece| !piece.nil? && piece.color == color}
+    own_pieces = find_piece {|piece| !piece.nil? && piece.color == color}
 
     own_pieces.all? {|piece| piece.valid_moves.empty?}
+  end
+
+  def find_piece(&prc)
+    @grid.flatten.select(&prc)
   end
 
   def fake_board

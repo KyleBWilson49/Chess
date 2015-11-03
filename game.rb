@@ -26,7 +26,6 @@ class Game
 
   def play_turn
     @display.render
-    puts "#{@current_player.color}'s turn"
     begin
       from_position = @current_player.play_turn
       to_position = @current_player.play_turn
