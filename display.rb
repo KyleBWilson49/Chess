@@ -29,7 +29,7 @@ class Display
     end
   end
 
-  def colors_for(i, j, color = :white)
+  def colors_for(i, j, color = :default)
     if [i, j] == @cursor_pos
       bg = :light_red
     elsif [i, j] == @cursor_last
@@ -42,10 +42,20 @@ class Display
     { background: bg, color: color }
   end
 
-  def render
+  def render(color = nil)
     system("clear")
     build_grid.each { |row| puts row.join }
-    print "\n"
+    puts "#{color.capitalize}'s move." if color
+    check_message
   end
 
+  def check_message
+    [:black, :white].each do |color|
+      if @board.checkmate?(color)
+        puts "#{color.to_s.capitalize} is checkmated!"
+      elsif @board.in_check?(color)
+        puts "#{color.to_s.capitalize} is in check!"
+      end
+    end
+  end
 end

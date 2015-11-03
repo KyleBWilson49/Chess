@@ -1,5 +1,5 @@
 require_relative "display"
-require 'byebug'
+require_relative "humanplayer"
 
 class Board
   attr_reader :grid
@@ -40,9 +40,10 @@ class Board
     end
   end
 
-  def move(start, end_pos)
+  def move(start, end_pos, current_player)
     piece = @grid[start[0]][start[1]]
-    if piece.nil?
+
+    if piece.nil? || piece.color != current_player.color
       fail "Invalid move."
     end
 
@@ -53,7 +54,7 @@ class Board
       end
     end
 
-    if piece.moves.include?(end_pos)
+    if piece.valid_moves.include?(end_pos)
       @grid[start[0]][start[1]] = nil
       @grid[end_pos[0]][end_pos[1]] = piece
       piece.position = [end_pos[0], end_pos[1]]
@@ -62,23 +63,33 @@ class Board
     end
   end
 
+  def move!(start, end_pos)
+    piece = @grid[start[0]][start[1]]
+
+    @grid[start[0]][start[1]] = nil
+    @grid[end_pos[0]][end_pos[1]] = piece
+    piece.position = [end_pos[0], end_pos[1]]
+  end
+
   def in_bounds?(pos)
     pos.all? {|el| el.between?(0,7)}
   end
 
   def in_check?(color)
     king = @grid.flatten.select do |piece|
-      piece.color == color && piece.class == King
+      !piece.nil? && piece.color == color && piece.class == King
     end
-    enemy_pieces = @grid.flatten.select {|piece| piece.color != color}
+    enemy_pieces = @grid.flatten.select {|piece| !piece.nil? && piece.color != color}
 
     enemy_pieces.any? do |piece|
-      piece.moves.include?(king.position)
+      piece.moves.include?(king[0].position)
     end
   end
 
   def checkmate?(color)
+    own_pieces = @grid.flatten.select {|piece| !piece.nil? && piece.color == color}
 
+    own_pieces.all? {|piece| piece.valid_moves.empty?}
   end
 
   def fake_board

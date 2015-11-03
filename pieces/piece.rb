@@ -15,4 +15,16 @@ class Piece
     self.class.new(dup_color, dup_position, fake_board)
   end
 
+  def move_into_check?(pos)
+    board_dupe = @board.fake_board
+    board_dupe.move!(@position, pos)
+    board_dupe.in_check?(@color)
+  end
+
+  def valid_moves
+    valid_moves = self.moves
+    valid_moves.select! {|move| !move_into_check?(move)}
+    valid_moves
+  end
+
 end
