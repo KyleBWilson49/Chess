@@ -5,7 +5,8 @@ class King < SteppingPiece
   attr_reader :value
 
   def initialize(color, position, board)
-    @value = "K "
+    @value = "♚ " if color == :black
+    @value = "♔ " if color == :white
     super
   end
 

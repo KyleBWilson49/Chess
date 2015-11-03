@@ -5,7 +5,8 @@ class Bishop < SlidingPiece
   attr_reader :value
 
   def initialize(color, position, board)
-    @value = "B "
+    @value = "♗ " if color == :white
+    @value = "♝ " if color == :black
     super
   end
 

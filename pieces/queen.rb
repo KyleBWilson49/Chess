@@ -5,7 +5,8 @@ class Queen < SlidingPiece
   attr_reader :value
 
   def initialize(color, position, board)
-    @value = "Q "
+    @value = "♕ " if color == :white
+    @value = "♛ " if color == :black
     super
   end
 

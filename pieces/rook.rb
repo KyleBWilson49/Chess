@@ -5,7 +5,8 @@ class Rook < SlidingPiece
   attr_reader :value
 
   def initialize(color, position, board)
-    @value = "R "
+    @value = "♖ " if color == :white
+    @value = "♜ " if color == :black
     super
   end
 

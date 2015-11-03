@@ -5,7 +5,8 @@ class Pawn < Piece
   attr_reader :value
 
   def initialize(color, position, board)
-    @value = "P "
+    @value = "♙ " if color == :white
+    @value = "♟ " if color == :black
     super
   end
 
