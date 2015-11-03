@@ -8,5 +8,11 @@ class Piece
     @board = board
   end
 
+  def dup_piece(fake_board)
+    dup_color = self.color
+    dup_position = self.position
+
+    self.class.new(dup_color, dup_position, fake_board)
+  end
 
 end

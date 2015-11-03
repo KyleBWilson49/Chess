@@ -4,9 +4,9 @@ require 'byebug'
 class Board
   attr_reader :grid
 
-  def initialize
+  def initialize(populate_pieces = true)
     @grid = Array.new(8) { Array.new(8) }
-    place_pieces
+    place_pieces if populate_pieces
   end
 
   def place_pieces
@@ -53,7 +53,6 @@ class Board
       end
     end
 
-
     if piece.moves.include?(end_pos)
       @grid[start[0]][start[1]] = nil
       @grid[end_pos[0]][end_pos[1]] = piece
@@ -67,11 +66,30 @@ class Board
     pos.all? {|el| el.between?(0,7)}
   end
 
-  def deep_dup
-    new_array = []
-    @grid.each do |el|
-      new_array << (el.is_a?(Array) ? el.deep_dup : el)
+  def in_check?(color)
+    king = @grid.flatten.select do |piece|
+      piece.color == color && piece.class == King
     end
-    new_array
+    enemy_pieces = @grid.flatten.select {|piece| piece.color != color}
+
+    enemy_pieces.any? do |piece|
+      piece.moves.include?(king.position)
+    end
+  end
+
+  def checkmate?(color)
+
+  end
+
+  def fake_board
+    fake_board = Board.new(false)
+    (0..7).each do |row|
+      (0..7).each do |col|
+        unless self.grid[row][col].nil?
+          fake_board.grid[row][col] = self.grid[row][col].dup_piece(fake_board)
+        end
+      end
+    end
+    fake_board
   end
 end
