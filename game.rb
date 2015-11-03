@@ -32,11 +32,11 @@ class Game
       to_position = @current_player.play_turn
       @board.move(from_position, to_position, @current_player)
     rescue RuntimeError => e
-      puts e.message
-      puts "Try again!"
+      @display.error_message = e.message
       retry
     end
 
+    @display.error_message = nil
     switch_player
   end
 

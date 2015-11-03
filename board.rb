@@ -22,14 +22,18 @@ class Board
   def move(start, end_pos, current_player)
     piece = @grid[start[0]][start[1]]
 
-    if piece.nil? || piece.color != current_player.color
-      fail "Invalid move."
+    if piece.nil?
+      fail
+    end
+
+    if piece.color != current_player.color
+      fail "Wrong color!"
     end
 
     end_piece = @grid[end_pos[0]][end_pos[1]]
     unless end_piece.nil?
       if end_piece.color == piece.color
-        fail "Invalid move"
+        fail "Can't take your own piece!"
       end
     end
 
@@ -38,7 +42,7 @@ class Board
       @grid[end_pos[0]][end_pos[1]] = piece
       piece.position = [end_pos[0], end_pos[1]]
     else
-      fail "Invalid move"
+      fail "Can't move there!"
     end
   end
 

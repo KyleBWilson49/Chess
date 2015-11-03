@@ -5,10 +5,13 @@ require_relative "cursorable"
 class Display
   include Cursorable
 
+  attr_accessor :error_message
+
   def initialize(board)
     @board = board
     @cursor_pos = [0,0]
     @cursor_last = nil
+    @error_message = nil
   end
 
   def build_grid
@@ -45,6 +48,7 @@ class Display
   def render(color = nil)
     system("clear")
     build_grid.each { |row| puts row.join }
+    puts @error_message if @error_message
     puts "#{color.capitalize}'s move." if color
     check_message
   end
