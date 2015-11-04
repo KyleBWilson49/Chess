@@ -33,16 +33,25 @@ class Display
   end
 
   def colors_for(i, j, color = :default)
+    # valid_moves = show_moves(@cursor_last) unless @cursor_last.nil?
+
     if [i, j] == @cursor_pos
-      bg = :light_red
+      bg = :red
     elsif [i, j] == @cursor_last
-      bg = :light_blue
+      bg = :blue
+    # elsif !valid_moves.nil? && valid_moves.include?([i, j])
+    #   bg = :light_blue
     elsif (i + j).odd?
       bg = :light_black
-    else
+    elsif (i + j).even?
       bg = :light_white
     end
     { background: bg, color: color }
+  end
+
+  def show_moves(pos)
+    i, j = pos
+    @board.grid[i][j].valid_moves unless @board.grid[i][j].nil?
   end
 
   def render(color = nil)

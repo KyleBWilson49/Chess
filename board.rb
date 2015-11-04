@@ -1,5 +1,6 @@
 require_relative "display"
 require_relative "humanplayer"
+require_relative "computerplayer"
 
 class Board
   attr_reader :grid
@@ -21,7 +22,7 @@ class Board
 
   def move(start, end_pos, current_player)
     piece = @grid[start[0]][start[1]]
-    p piece.valid_moves
+
     if piece.nil?
       fail
     end
@@ -44,6 +45,17 @@ class Board
     else
       fail "Can't move there!"
     end
+
+    promote(piece, end_pos) if piece.class == Pawn
+  end
+
+  def promote(piece, end_pos)
+    x,y = end_pos
+    if piece.color == :white && x == 0
+      @grid[x][y] = Queen.new(:white, [x,y], self)
+    elsif piece.color == :black && x == 7
+      @grid[x][y] = Queen.new(:black, [x,y], self)
+    end
   end
 
   def move!(start, end_pos)
@@ -60,7 +72,6 @@ class Board
 
   def in_check?(color)
     king = find_piece { |piece| !piece.nil? && piece.color == color && piece.class == King}
-
     enemy_pieces = find_piece {|piece| !piece.nil? && piece.color != color}
 
     enemy_pieces.any? do |piece|
@@ -70,7 +81,6 @@ class Board
 
   def checkmate?(color)
     own_pieces = find_piece {|piece| !piece.nil? && piece.color == color}
-
     own_pieces.all? {|piece| piece.valid_moves.empty?}
   end
 

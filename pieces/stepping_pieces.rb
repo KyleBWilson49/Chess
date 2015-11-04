@@ -6,8 +6,8 @@ class SteppingPiece < Piece
     super
   end
 
-  def moves(move_directions)
-    valid_moves = []
+  def moves(move_directions, castle_moves = [])
+    valid_moves = castle_moves
     grid = @board.grid
     x,y = position
     # debugger

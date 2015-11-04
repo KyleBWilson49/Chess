@@ -3,6 +3,7 @@ require_relative "cursorable"
 require_relative "display"
 require_relative "pieces"
 require_relative "humanplayer"
+require_relative "computerplayer"
 
 class Game
   attr_reader :display, :board, :display, :current_player
@@ -11,7 +12,7 @@ class Game
     @board = Board.new
     @display = Display.new(@board)
     @player1 = HumanPlayer.new(:white, @display)
-    @player2 = HumanPlayer.new(:black, @display)
+    @player2 = ComputerPlayer.new(:black, @board)
     @current_player = @player1
   end
 
