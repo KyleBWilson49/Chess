@@ -31,14 +31,22 @@ class ComputerPlayer
   end
 
   def select_pieces(moves_hash)
-    debugger
     available_pieces = moves_hash.select { |key, val| !val.empty? }
 
-    attack_pieces = available_pieces.select do |key, val|
+    attack_pieces = Hash.new { |h,k| h[k] = [] }
 
-
-      # val.each { |val| enemy_positions.include?(val) }
+    available_pieces.each do |key, value|
+      value.each do |pos|
+        if enemy_positions.include?(pos)
+          attack_pieces[key] << pos
+        end
+      end
     end
+
+    # attack_pieces = available_pieces.select do |key, val|
+    #   overlap = enemy_positions & val
+    #   false ? overlap.empty? : true
+    # end
 
     return attack_pieces unless attack_pieces.empty?
     available_pieces
