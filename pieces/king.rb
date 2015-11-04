@@ -38,7 +38,7 @@ class King < SteppingPiece
   def queen_side_castleable?
     x,y = position
     if (1..3).all? {|i| @board.grid[x][y - i].nil?} && @board.grid[x][y - 4].is_a?(Rook)
-      return false if (@has_moved == true) || (@board.grid[x][y + 3].has_moved == true)
+      return false if (@has_moved == true) || (@board.grid[x][y - 4].has_moved == true)
       return true unless (1..3).any? { |i| move_into_check?([x, y - 1]) }
     end
     false
