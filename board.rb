@@ -46,7 +46,32 @@ class Board
       fail "Can't move there!"
     end
 
+    castle(start, end_pos, piece.color) if piece.is_a?(King)
+
     promote(piece, end_pos) if piece.class == Pawn
+
+    if piece.is_a?(King) || piece.is_a?(Rook)
+      piece.has_moved = true
+    end
+
+  end
+
+  def castle(start, end_pos, color)
+    row = color == :white ? 7 : 0
+
+    if start == [row,4] && end_pos == [row,6]
+      rook = @grid[row][7]
+      @grid[row][5] = rook
+      @grid[row][7] = nil
+      rook.position = [row, 5]
+    end
+
+    if start == [row,4] && end_pos == [row,2]
+      rook = @grid[row][0]
+      @grid[row][3] = rook
+      @grid[row][0] = nil
+      rook.position = [row,3]
+    end
   end
 
   def promote(piece, end_pos)

@@ -3,10 +3,12 @@ require_relative "sliding_pieces"
 class Rook < SlidingPiece
 
   attr_reader :value
+  attr_accessor :has_moved
 
   def initialize(color, position, board)
     @value = "♖ " if color == :white
     @value = "♜ " if color == :black
+    @has_moved = false
     super
   end
 

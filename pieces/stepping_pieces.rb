@@ -10,7 +10,6 @@ class SteppingPiece < Piece
     valid_moves = castle_moves
     grid = @board.grid
     x,y = position
-    # debugger
     move_directions.each do |move|
       dx, dy = move
       space = [x + dx, y + dy]

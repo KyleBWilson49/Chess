@@ -33,14 +33,14 @@ class Display
   end
 
   def colors_for(i, j, color = :default)
-    # valid_moves = show_moves(@cursor_last) unless @cursor_last.nil?
+    valid_moves = show_moves(@cursor_last) unless @cursor_last.nil?
 
     if [i, j] == @cursor_pos
       bg = :red
     elsif [i, j] == @cursor_last
       bg = :blue
-    # elsif !valid_moves.nil? && valid_moves.include?([i, j])
-    #   bg = :light_blue
+    elsif !valid_moves.nil? && valid_moves.include?([i, j])
+      bg = :light_blue
     elsif (i + j).odd?
       bg = :light_black
     elsif (i + j).even?
