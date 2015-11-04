@@ -36,7 +36,7 @@ class Display
     valid_moves = show_moves(@cursor_last) unless @cursor_last.nil?
 
     if [i, j] == @cursor_pos
-      bg = :red
+      bg = :green
     elsif [i, j] == @cursor_last
       bg = :blue
     elsif !valid_moves.nil? && valid_moves.include?([i, j])
@@ -44,7 +44,7 @@ class Display
     elsif (i + j).odd?
       bg = :light_black
     elsif (i + j).even?
-      bg = :light_white
+      bg = :light_red
     end
     { background: bg, color: color }
   end

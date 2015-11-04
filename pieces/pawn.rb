@@ -36,6 +36,8 @@ class Pawn < Piece
       if @board.in_bounds?(space)
         if grid[space[0]][space[1]].nil?
           valid_moves << space
+        else
+          break
         end
       end
     end

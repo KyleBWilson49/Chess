@@ -12,13 +12,15 @@ class Game
     @board = Board.new
     @display = Display.new(@board)
     @player1 = HumanPlayer.new(:white, @display)
-    # @player2 = HumanPlayer.new(:black, @display)
-    @player2 = ComputerPlayer.new(:black, @board)
+    @player2 = HumanPlayer.new(:black, @display)
+    # @player1 = ComputerPlayer.new(:white, @board)
+    # @player2 = ComputerPlayer.new(:black, @board)
     @current_player = @player1
   end
 
   def play
     until game_over?
+      # sleep(1)
       play_turn
     end
 
@@ -43,6 +45,7 @@ class Game
 
   def game_over?
     [:black, :white].any? { |color| @board.checkmate?(color) }
+    # @board.grid.flatten
   end
 
   def switch_player
