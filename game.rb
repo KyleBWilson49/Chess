@@ -12,9 +12,9 @@ class Game
     @board = Board.new
     @display = Display.new(@board)
     @player1 = HumanPlayer.new(:white, @display)
-    @player2 = HumanPlayer.new(:black, @display)
+    # @player2 = HumanPlayer.new(:black, @display)
     # @player1 = ComputerPlayer.new(:white, @board)
-    # @player2 = ComputerPlayer.new(:black, @board)
+    @player2 = ComputerPlayer.new(:black, @board)
     @current_player = @player1
   end
 
